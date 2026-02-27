@@ -1,0 +1,61 @@
+body {
+  background-image: url(fondopag.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+p {
+  color: black;
+  text-shadow: 2px 2px 5px #00ff98;
+  text-align: center;
+}
+.pepe{
+  position: relative;
+  background-color: rgb(137, 9, 84);
+  text-align: center;
+}
+.bodidi{
+  text-align: center;
+  color: black;
+  text-shadow: 2px 2px 5px #1297de;
+}
+img{
+  width: 100px;
+  height: 100px;
+}
+button{
+  align-self: center;
+  width: 100px;
+  height: 100px;
+
+}
+
+.lin{
+  color: rgb(255, 255, 255);
+  background-color: black;
+  text-align: center;
+}
+
+#planta{
+  background-color: #08dd1a;
+  border: none;
+  color: white;
+  text-align: center;
+  display: block;
+  margin: 20px auto;
+}
+#bulbasaur{
+  width: 200px;
+  height: 200px;
+}
+#planta:hover{
+  animation: cambioColor 2s infinite;
+}
+
+@keyframes cambioColor {
+  0%   { background-color: green; }
+  25%  { background-color: lime; }
+  50%  { background-color: yellow; }
+  75%  { background-color: orange; }
+  100% { background-color: green; }
+}
