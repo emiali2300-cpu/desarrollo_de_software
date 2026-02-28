@@ -4,7 +4,7 @@ body {
   background-attachment: fixed;
   background-size: cover;
 }
-p {
+#p1bu {
   color: black;
   text-shadow: 2px 2px 5px #00ff98;
   text-align: center;
@@ -58,4 +58,18 @@ button{
   50%  { background-color: yellow; }
   75%  { background-color: orange; }
   100% { background-color: green; }
+}
+
+#quepo{
+  background-color: red;
+  text-align: center;
+  font-size: medium;
+  text-shadow: 2px 2px 5px #000000;
+}
+
+#fondo{
+  background-image: url(fondo.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
