@@ -32,6 +32,7 @@ class ball {
         this.directiony= 1;
         this.directionx =1;
         this.lives = 3;
+        this.velocity = 0.3;
     }
     draw(ctx){
         ctx.beginPath();
@@ -41,8 +42,8 @@ class ball {
         ctx.closePath();
     }
     update(deltaTime){
-        this.x += 0.3*this.directionx * deltaTime;
-        this.y += 0.3*this.directiony * deltaTime;
+        this.x += this.velocity *this.directionx * deltaTime;
+        this.y += this.velocity *this.directiony * deltaTime;
         this.clampWithinCanvas();
     }
     clampWithinCanvas() {
@@ -127,10 +128,15 @@ class Game {
         this.gameOver = false;
         this.col = 10;
         this.ren = 5;
+        this.blr = 0;
+        this.blr2 = 0;
+        this.time = 0;
+        this.limittime = 10 * 1000;
+        this.spapress = false;
     }
 
     initObjects() {
-        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight - 50), 100, 20, "red");
+        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight - 50), 140, 10, "red");
         this.ball = new ball();
         this.actors = [];
         this.blwidth = canvasWidth / this.col;
@@ -162,6 +168,14 @@ class Game {
         // Move the player
         this.player.update(deltaTime);
         this.ball.update(deltaTime);
+        if(this.spapress){
+            this.time =deltaTime;
+            this.limittime -= this.time;
+            if(this.limittime <= 0){
+                this.ball.lives = 0;
+            }
+        }
+
         if (this.ball.x >= this.player.position.x - this.player.halfSize.x &&
             this.ball.x <= this.player.position.x + this.player.halfSize.x &&
             this.ball.y + this.ball.radio >= this.player.position.y - this.player.halfSize.y &&
@@ -188,6 +202,15 @@ class Game {
 
         }
         // combrobamos si se rompieron todos los bloques
+        
+        if(this.blockromp % 10 == 0 && this.blockromp != 0 && this.blr != this.blockromp){
+            this.ball.lives += 2;
+            this.blr = this.blockromp;
+        }
+        if(this.blockromp % 5 == 0 && this.blockromp != 0 && this.blr2 != this.blockromp){
+            this.limittime += 2 *1000;
+            this.blr2 = this.blockromp;
+        }
         if(this.actors.length == 0){
             this.ball.x = canvasWidth/2;
             this.ball.y = canvasHeight/2 + 70;
@@ -212,6 +235,7 @@ class Game {
 
             ctx.font = "20px Arial";
             ctx.fillText("Presiona espacio para volver a empezar", canvasWidth/2, canvasHeight/2 + 50);
+            this.limittime = 130 * 1000;
         }
         ctx.fillStyle = "blue";
             ctx.font = "20px Arial";
@@ -219,7 +243,10 @@ class Game {
             ctx.fillText("Bloques rotos: " + this.blockromp, 0, canvasHeight - 10);
         ctx.fillStyle = "red";
             ctx.fillText("vidas: " + this.ball.lives,10, 20);
-
+        ctx.fillStyle = "white";
+            ctx.font = "20px Arial";
+            ctx.textAlign = "left";
+            ctx.fillText("Tiempo restante " + Math.floor(this.limittime/1000), canvasWidth - 250, 15);
         if(this.ball.lives == 10){
             ctx.fillStyle = "red";
             ctx.font = "40px Arial";
@@ -232,11 +259,14 @@ class Game {
                 actor.color = "red";
                 this.re = true;
             }
+            this.ball.velocity = 0.5;
         }
         if (Math.floor(this.lenp/4) == this.actors.length){
             for(let actor of this.actors){
                 actor.color = "blue";
+                
             }
+            this.ball.velocity = 0.7;
         }
     }
 
@@ -254,12 +284,17 @@ class Game {
                         this.actors.splice(this.actors.indexOf(actor), 1);
                     }
                     this.initObjects();
+                    this.spapress = true;
                 }
             }
             if (event.key == 'a') {
                 this.addKey('left');
             }
-            else if (event.key == 'd') {
+             if (event.key == 'd') {
+                this.addKey('right');
+            }
+            if (event.key == 'g') {
+                this.ball.velocity = 0.7;
                 this.addKey('right');
             }
         });
@@ -267,7 +302,11 @@ class Game {
         window.addEventListener('keyup', (event) => {
             if (event.key == 'a') {
                 this.delKey('left');
-            }else if (event.key == 'd') {
+            } if (event.key == 'd') {
+                this.delKey('right');
+            }
+            if (event.key == 'g') {
+                this.ball.velocity = 0.3;
                 this.delKey('right');
             }
         });
