@@ -22,7 +22,7 @@ let oldTime =0;
 
 let playerSpeed = 0.5;
 
-// Class for the main character in the game
+// Class que contendra las caracteristicas de la pelota ademas de sus metodos
 
 class ball {
     constructor(){
@@ -58,6 +58,7 @@ class ball {
         }
     }
 }
+// clase que contiene la paleta 
 class Player extends GameObject {
     constructor(position, width, height, color, sheetCols) {
         super(position, width, height, color, "player", sheetCols);
@@ -186,6 +187,7 @@ class Game {
             }    
 
         }
+        // combrobamos si se rompieron todos los bloques
         if(this.actors.length == 0){
             this.ball.x = canvasWidth/2;
             this.ball.y = canvasHeight/2 + 70;
@@ -193,6 +195,7 @@ class Game {
             this.directiony = 0;
             this.ball.lives = 10;
         }
+        // comprobamos en todo momento si el jugador perdio
         if(this.ball.lives <= 0){
             this.ball.x = canvasWidth/2;
             this.ball.y = canvasHeight/2 +70;
@@ -200,6 +203,7 @@ class Game {
             this.directiony = 0;
             this.gameOver = true;
         }
+        //codigo con todos los textos que salen dentro del mismo
         if(this.gameOver){
             ctx.fillStyle = "red";
             ctx.font = "60px Arial";
@@ -215,6 +219,14 @@ class Game {
             ctx.fillText("Bloques rotos: " + this.blockromp, 0, canvasHeight - 10);
         ctx.fillStyle = "red";
             ctx.fillText("vidas: " + this.ball.lives,10, 20);
+
+        if(this.ball.lives == 10){
+            ctx.fillStyle = "red";
+            ctx.font = "40px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("Presiona espacio para empezar", canvasWidth/2, canvasHeight/2);
+        }
+        // dos condicionales para cambiar el color de los bloques dependiendo de la cantidad
         if(this.lenp/2 == this.actors.length){
             for(let actor of this.actors){
                 actor.color = "red";
@@ -226,15 +238,9 @@ class Game {
                 actor.color = "blue";
             }
         }
-        if(this.ball.lives == 10){
-            ctx.fillStyle = "red";
-            ctx.font = "40px Arial";
-            ctx.textAlign = "center";
-            ctx.fillText("Presiona espacio para empezar", canvasWidth/2, canvasHeight/2);
-        }
     }
 
-
+    // aqui se escuchan todaas las teclas presionadas y soltadas
     createEventListeners() {
         window.addEventListener('keydown', (event) => {
             if (event.key == ' ') {
