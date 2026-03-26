@@ -201,7 +201,7 @@ class Game {
             }    
 
         }
-        // combrobamos si se rompieron todos los bloques
+        // combrobamos la cantidad de bloques rotos para que yaa sea se le aumente vida al jugador o se aumente el tiempo o que gane el mismo
         
         if(this.blockromp % 10 == 0 && this.blockromp != 0 && this.blr != this.blockromp){
             this.ball.lives += 2;
